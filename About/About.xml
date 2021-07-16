@@ -14,7 +14,7 @@ Adds a basic work type for colonists to man mortars automatically until those mo
 
 Readying individual mortars can be toggled on and off.
 
-Not particularly save-game friendly, however it will work if you deconstruct and rebuild all your mortars.
+Not particularly compatible with existing saves, however it will work if you deconstruct and rebuild all your mortars.
 
 Works with 1.2 and 1.3 with both reinforced barrels (those are reloaded already in vanilla) as well as classic mortar mode.
 Compatible with Mortar Accuracy, but likely incompatible with any non-vanilla mortars and potentially other mortar mods.
