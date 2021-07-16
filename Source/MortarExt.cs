@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
 using Verse;
-using KeepMortarsReady;
 
 namespace RimWorld
 {
@@ -13,13 +14,13 @@ namespace RimWorld
         {
             get
             {
-                if (gun != null)
+                if (this.gun != null)
                 {
-                    CompChangeableProjectile compChangeableProjectile = gun.TryGetComp<CompChangeableProjectile>();
-                    Debug.Log("Loaded: " + compChangeableProjectile.Loaded);
+                    CompChangeableProjectile compChangeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
+                    KeepMortarsReady.Debug.Log("Loaded: " + compChangeableProjectile.Loaded);
 
-                    bool coolingDown = burstCooldownTicksLeft > 0;
-                    Debug.Log("Cooldown complete: " + !coolingDown);
+                    bool coolingDown = this.burstCooldownTicksLeft > 0;
+                    KeepMortarsReady.Debug.Log("Cooldown complete: " + !coolingDown);
 
                     if (compChangeableProjectile != null && (!compChangeableProjectile.Loaded || coolingDown))
                     {
@@ -33,7 +34,30 @@ namespace RimWorld
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref ShouldKeepReady, "ShouldKeepReady", false, false);
+            Scribe_Values.Look<bool>(ref this.ShouldKeepReady, "ShouldKeepReady", false, false);
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
+
+            if (this.Faction == Faction.OfPlayer)
+            {
+                yield return new Command_Toggle
+                {
+                    defaultLabel = "KeepMortarsReady_CommandKeepReady".Translate(),
+                    defaultDesc = "KeepMortarsReady_CommandKeepReadyDesc".Translate(),
+                    icon = ContentFinder<Texture2D>.Get("UI/KeepReady", true),
+                    toggleAction = delegate ()
+                    {
+                        this.ShouldKeepReady = !this.ShouldKeepReady;
+                    },
+                    isActive = (() => this.ShouldKeepReady)
+                };
+            }
         }
     }
 }
