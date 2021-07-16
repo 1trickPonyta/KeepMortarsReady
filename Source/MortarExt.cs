@@ -29,5 +29,11 @@ namespace RimWorld
                 return true;
             }
         }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look<bool>(ref ShouldKeepReady, "ShouldKeepReady", false, false);
+        }
     }
 }
