@@ -1,5 +1,6 @@
 $path = "D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\KeepMortarsReady"
 
+Copy-Item "$path\About\PublishedFileId.txt" ..\About
 Remove-Item -Recurse "$path\*"
 mkdir $path
 @(
@@ -14,3 +15,4 @@ mkdir $path
 Remove-Item -Recurse "$path\Source\bin"
 Remove-Item -Recurse "$path\Source\obj"
 Remove-Item "$path\Source\packages.config"
+Remove-Item ..\About\PublishedFileId.txt
