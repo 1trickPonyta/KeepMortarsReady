@@ -1,18 +1,25 @@
-$path = "D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\KeepMortarsReady"
+$path = "D:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(($PSScriptRoot | gi).Name)"
 
-Copy-Item "$path\About\PublishedFileId.txt" ..\About
+Copy-Item "$path\About\PublishedFileId.txt" "$PSScriptRoot\About"
 Remove-Item -Recurse "$path\*"
 mkdir $path
 @(
-	"About",
-	"Assemblies",
-	"Defs",
-	"Languages",
-	"Patches",
-	"Source",
-	"Textures"
-) | %{ Copy-Item -Recurse "..\$_" "$path\$_" }
-Remove-Item -Recurse "$path\Source\bin"
-Remove-Item -Recurse "$path\Source\obj"
-Remove-Item "$path\Source\packages.config"
-Remove-Item ..\About\PublishedFileId.txt
+	".",
+	"1.2",
+	"1.3"
+) | %{
+	$base = $_
+	@(
+		"About",
+		"Assemblies",
+		"Defs",
+		"Languages",
+		"Patches",
+		"Songs",
+		"Source",
+		"Textures"
+	) | %{ Copy-Item -Recurse "$PSScriptRoot\$base\$_" "$path\$base\$_" }
+	Remove-Item -Recurse "$path\$base\Source\bin"
+	Remove-Item -Recurse "$path\$base\Source\obj"
+	Remove-Item "$path\$base\Source\packages.config"
+}
