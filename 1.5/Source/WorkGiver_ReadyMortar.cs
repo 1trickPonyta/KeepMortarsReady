@@ -51,7 +51,9 @@ namespace RimWorld
 			}
 			MortarExt building = t as MortarExt;
 			Debug.Log("building: " + building);
-			return building != null && !building.IsForbidden(pawn) && pawn.CanReserve(building, 1, -1, null, forced) && !building.IsBurning() && !building.IsReady && building.ShouldKeepReady;
+			bool hasFuel = !JobDriver_ReadyMortar.GunNeedsRefueling(building) || JobDriver_ManTurret.FindFuelForTurret(pawn, building) != null;
+			bool hasAmmo = !JobDriver_ReadyMortar.GunNeedsLoading(building) || JobDriver_ManTurret.FindAmmoForTurret(pawn, building) != null;
+			return building != null && !building.IsForbidden(pawn) && pawn.CanReserve(building, 1, -1, null, forced) && !building.IsBurning() && !building.IsReady && building.ShouldKeepReady && hasFuel && hasAmmo;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

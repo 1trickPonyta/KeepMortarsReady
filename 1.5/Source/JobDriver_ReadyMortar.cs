@@ -9,7 +9,7 @@ namespace RimWorld
 {
     public class JobDriver_ReadyMortar : JobDriver_ManTurret
     {
-        private static bool GunNeedsRefueling(Building b)
+        public static bool GunNeedsRefueling(Building b)
         {
             Building_TurretGun building_TurretGun = b as Building_TurretGun;
             if (building_TurretGun == null)
@@ -20,7 +20,7 @@ namespace RimWorld
             return compRefuelable != null && !compRefuelable.HasFuel && compRefuelable.Props.fuelIsMortarBarrel && !Find.Storyteller.difficulty.classicMortars;
         }
 
-        private static bool GunNeedsLoading(Building b)
+        public static bool GunNeedsLoading(Building b)
         {
             Building_TurretGun building_TurretGun = b as Building_TurretGun;
             if (building_TurretGun == null)
